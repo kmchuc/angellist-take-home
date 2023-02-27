@@ -27,7 +27,7 @@ func main() {
 
 		opportunity = *request
 
-		prorates, pErr := util.ProrateCalculator(opportunity.AllocationAmount, opportunity.InvestorAmounts)
+		prorates, pErr := util.AllocationCalculator(opportunity.AllocationAmount, opportunity.InvestorAmounts)
 		if pErr != nil {
 			return fmt.Errorf("error calculating prorate: %w", pErr)
 		}

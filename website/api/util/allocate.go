@@ -15,28 +15,28 @@ type Response struct {
 	Amounts map[string]float32
 }
 
-func ProrateCalculator(allocationAmount int, investors []Investor) (Response, error) {
+func AllocationCalculator(allocationAmount int, investors []Investor) (Response, error) {
 	totalRequestedAmount := 0
 	totalAverageAmount := 0
-	//this is what we'll be returning
+	// this is what we'll be returning
 	proratedAmounts := make(map[string]float32)
 	var maxAllocations []float32
 	adjustedAllocationAmount := allocationAmount
 
-	// calc sum of all investors requested amounts and sum of all investors average amounts
+	// sum of all investors requested amounts and sum of all investors average amounts
 	for _, investor := range investors {
 		totalRequestedAmount += investor.RequestedAmount
 		totalAverageAmount += investor.AverageAmount
 	}
 
-	// adjust investor's amount they can invest using rate of their avg amount and sum of all investors
+	// adjust investor's amount they can invest using rate of their avg investment
 	for _, request := range investors {
 		maxAllocations = append(maxAllocations, float32(allocationAmount)*(float32(request.AverageAmount)/float32(totalAverageAmount)))
 	}
 
 	// if investor requests to invest more than their adjusted amount
 	// subtract the investors who are requesting less than their adjusted amount
-	// from the totalAverageAmount and  adjustedAllocationAmount
+	// from the totalAverageAmount and adjustedAllocationAmount
 	for index, investor := range investors {
 		if float32(investor.RequestedAmount) <= maxAllocations[index] {
 			totalAverageAmount -= investor.AverageAmount
@@ -48,13 +48,18 @@ func ProrateCalculator(allocationAmount int, investors []Investor) (Response, er
 		// if investor's request amount > than their adjusted avg,
 		// prorate using adjusted total avg amount and adjusted avg
 		if totalRequestedAmount > allocationAmount && float32(investor.RequestedAmount) > maxAllocations[index] {
-			proratedAmounts[investor.Name] = float32(adjustedAllocationAmount) * (float32(investor.AverageAmount) / float32(totalAverageAmount))
+			proratedAmounts[investor.Name] = ProrateCalculator(adjustedAllocationAmount, investor.AverageAmount, totalAverageAmount)
 		} else {
+			// if total investor's requests <= allocationAmount and
+			// investor's request is less than adjusted avg
+			// just add the investor's original requested amount
 			proratedAmounts[investor.Name] = float32(investor.RequestedAmount)
 		}
 	}
 
-	return Response{
-		Amounts: proratedAmounts,
-	}, nil
+	return Response{Amounts: proratedAmounts}, nil
+}
+
+func ProrateCalculator(allocationAmount int, avgAmount int, totalAvg int) (proratedAmount float32) {
+	return float32(allocationAmount) * (float32(avgAmount) / float32(totalAvg))
 }
