@@ -3,14 +3,19 @@ package main
 import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/kmchuc/angellist-take-home/tree/main/website/backend/util"
 	"log"
 )
 
 func main() {
-	fmt.Println("Hello World")
-
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000",
+		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowMethods: "POST",
+	}))
 
 	opportunity := util.Allocate{}
 
@@ -19,7 +24,7 @@ func main() {
 	})
 
 	app.Post("/api/invest", func(ctx *fiber.Ctx) error {
-		request := &util.Allocate{}
+		request := new(util.Allocate)
 
 		if pErr := ctx.BodyParser(request); pErr != nil {
 			return fmt.Errorf("failed to parse request body: %w", pErr)
@@ -27,7 +32,7 @@ func main() {
 
 		opportunity = *request
 
-		prorates, pErr := util.ProrateCalculator(opportunity.AllocationAmount, opportunity.InvestorAmounts)
+		prorates, pErr := util.AllocationCalculator(opportunity.AllocationAmount, opportunity.InvestorAmounts)
 		if pErr != nil {
 			return fmt.Errorf("error calculating prorate: %w", pErr)
 		}
