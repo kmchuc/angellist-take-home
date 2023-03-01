@@ -9,3 +9,10 @@ issue and how would you communicate this to the affected customers.
 
 Response
 ~~~~~~~~
+
+First, I'd greatly apologize for the horrible mistake and explain what caused the bug and announce a solution would
+be out immediately. I think the best way to correct this issue would be to use the year in which the deal happened and
+use the customer's average investment amount from that year, prorate using the amount they were going to allocate,
+and financially compensate for the difference. The same would be the customer from two weeks ago, but instead they'd be
+using the current year's model for financial compensation which would be less than the customer from two years ago. I
+would also add more testing for the solution to make sure this issue never happens again.

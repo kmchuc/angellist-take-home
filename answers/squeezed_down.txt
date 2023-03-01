@@ -12,3 +12,15 @@ this could potentially happen less often?
 
 Response
 ~~~~~~~~
+In the beginning, I myself had issues understanding how the proration calculation was conducted. The best way for me
+to understand it was by comparing it to a real life scenario. For example, lets say it's your friend's birthday, you
+and your friends want to split the cost of a birthday cake. The cake costs $50 and there's 5 of you splitting
+the cost. Each person has a different amount of money they're willing to contribute. 3 people are willing to pay $20
+and 2 people are willing to pay $10, the total contribution would $70 which is way more than the cost of the cake. So we
+have to prorate everyone's amount using the rate of their contribution in order for the total to be $50, no more no less.
+The same could be seen in this case where a startup is asking for a certain amount (allocation amount) but since there
+are so many investors willing to invest in the company, to keep things fair we must prorate everyone's contribution
+amount to make sure the total will not be greater than the allocation amount.
+
+I think if the number of investors were limited for a startup, this would allow more of an opportunity for investors
+to contribute closer to the amount they requested.
