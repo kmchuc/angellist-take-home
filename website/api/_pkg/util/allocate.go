@@ -1,4 +1,4 @@
-package _util
+package util
 
 type Allocate struct {
 	AllocationAmount int        `json:"allocation_amount"`
