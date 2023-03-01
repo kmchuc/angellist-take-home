@@ -11,11 +11,7 @@ type Investor struct {
 	AverageAmount   int    `json:"average_amount"`
 }
 
-type Response struct {
-	Amounts map[string]float32
-}
-
-func AllocationCalculator(allocationAmount int, investors []Investor) (Response, error) {
+func AllocationCalculator(allocationAmount int, investors []Investor) (map[string]float32, error) {
 	totalRequestedAmount := 0
 	totalAverageAmount := 0
 	// this is what we'll be returning
@@ -57,7 +53,7 @@ func AllocationCalculator(allocationAmount int, investors []Investor) (Response,
 		}
 	}
 
-	return Response{Amounts: proratedAmounts}, nil
+	return proratedAmounts, nil
 }
 
 func ProrateCalculator(allocationAmount int, avgAmount int, totalAvg int) (proratedAmount float32) {
